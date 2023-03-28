@@ -1,35 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Home</title>
-
+    <script src="{{ url_for('static', filename='budget.js') }}"></script>
 </head>
 <body>
-  <h1>Welcome to Budget App!</h1>
-  <p>This is the home page of the Budget App.</p>
+    <h1>Welcome to Budget App!</h1>
+    <p>This is the home page of the Budget App.</p>
 
-  <div class="container">
-      <h3>Budget</h3>
-      <form method="POST" action="{{ url_for('add_budget') }}">
-        <div class="form-group">
-          <label for="budget">Budget:</label>
-          <input type="number" class="form-control" id="budget" name="budget" placeholder="Entrez votre budget" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
-      </form>
-    </div>
-
-  <div class="container">
-      <h3>Budgets List</h3>
-      <ul>
-          {% for budget in budgets %}
-              <li>{{ budget.amount }}</li>
-          {% endfor %}
-      </ul>
-  </div>
-
+    <div class="container">
+        <h3>Budget</h3>
+        <form id="budget-form">
+          <div class="form-group">
+            <label for="budget">Budget:</label>
+            <input type="number" class="form-control" id="budget-amount" name="amount" placeholder="Entrez votre budget" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+      </div>
       
+      <div class="container">
+        <h3>Budgets List</h3>
+        <ul id="budget-list">
+        </ul>
+      </div>
 
 </body>
 </html>

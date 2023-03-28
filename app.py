@@ -21,6 +21,21 @@ def budget():
         result = mongo.db.budget.insert_one(data)
         return jsonify({"inserted_id": str(result.inserted_id)})
   
+@app.route("/budgets", methods=["POST"])
+def add_budget():
+    data = request.json
+    if not data:
+        return jsonify({"error": "Missing data"})
+    budget = {
+        "amount": data.get("amount"),
+        "description": data.get("description"),
+        "category": data.get("category")
+    }
+    result = mongo.db.budget.insert_one(budget)
+    return jsonify({"inserted_id": str(result.inserted_id)})
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
 
