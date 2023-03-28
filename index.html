@@ -1,29 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Home</title>
-    <script src="{{ url_for('static', filename='budget.js') }}"></script>
+    <title>Budget App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Liens vers les fichiers CSS de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 <body>
-    <h1>Welcome to Budget App!</h1>
-    <p>This is the home page of the Budget App.</p>
 
-    <div class="container">
-        <h3>Budget</h3>
-        <form id="budget-form">
-          <div class="form-group">
-            <label for="budget">Budget:</label>
-            <input type="number" class="form-control" id="budget-amount" name="amount" placeholder="Entrez votre budget" required>
-          </div>
-          <button type="submit" class="btn btn-primary">Enregistrer</button>
-        </form>
-      </div>
-      
-      <div class="container">
-        <h3>Budgets List</h3>
-        <ul id="budget-list">
+<div class="container">
+    <h1 class="text-center mt-3 mb-3">Budget App</h1>
+
+    <!-- Formulaire d'ajout de budget -->
+    <form id="budget-form">
+        <div class="form-group">
+            <label for="budget-amount">Entrez votre budget :</label>
+            <div class="input-group">
+                <input type="number" class="form-control" id="budget-amount" required>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- Liste des budgets -->
+    <div id="budget-list">
+        <h2 class="mt-5">Liste des budgets</h2>
+        <ul class="list-group">
+            {% for budget in budgets %}
+            <li class="list-group-item">{{ budget.amount }}</li>
+            {% endfor %}
         </ul>
-      </div>
+    </div>
+
+</div>
+
+<!-- Liens vers les fichiers JavaScript de jQuery et Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- Script pour l'ajout de budget -->
+<script>
+    $(document).ready(function() {
+        $('#budget-form').submit(function(event) {
+            event.preventDefault(); // Empêcher la soumission normale du formulaire
+            var amount = $('#budget-amount').val(); // Récupérer le montant du budget entré par l'utilisateur
+            $.ajax({
+                url: '/budgets',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ amount: amount }),
+                success: function(response) {
+                    alert('Budget ajouté avec succès!'); // Afficher une notification de succès
+                    $('#budget-amount').val(''); // Vider le champ de saisie
+                    location.reload(); // Recharger la page pour afficher le nouveau budget ajouté
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText); // Afficher l'erreur dans la console
+                    alert('Une erreur est survenue lors de l\'ajout du budget.'); // Afficher une notification d'erreur
+                }
+            });
+        });
+    });
+</script>
 
 </body>
 </html>
+
