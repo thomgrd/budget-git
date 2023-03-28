@@ -1,9 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask_pymongo import PyMongo
-
+from pymongo import MongoClient
 
 app = Flask(__name__)
-app.config['MONGO_URI'] = 'mongodb+srv://thomscustom:<Neele21122009>@cluster0.b3iilpr.mongodb.net/?retryWrites=true&w=majority'
+
+client = MongoClient('localhost', 27017)
+db = client['mydatabase']
+
+app = Flask(__name__)
+app.config['MONGO_URI'] = 'mongodb+srv://thomscustom:<neele>@cluster0.b3iilpr.mongodb.net/?retryWrites=true&w=majority'
 mongo = PyMongo(app)
 
 @app.route('/')
@@ -19,6 +23,17 @@ def save_budget():
     budget = request.form['budget']
     mongo.db.budget.update_one({}, {'$set': {'amount': int(budget)}}, upsert=True)
     return redirect(url_for('home'))
+
+@app.route('/')
+def index():
+    mycollection = db['budgets']
+    document = {'name': 'John', 'age': 30}
+    mycollection.insert_one(document)
+    return 'Document inserted.'
+
+
+budgets = mongo.db.budgets.find()
+
 
 if __name__ == '__main__':
     app.run(debug=True)
