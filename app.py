@@ -9,24 +9,18 @@ mongo = PyMongo(app)
 def home():
     return "Hello, World!"
 
-@app.route("/budget", methods=["GET", "POST"])
-def budgets():
+@app.route("/budgets", methods=["GET", "POST"])
+def budget():
     if request.method == "GET":
         budgets = list(mongo.db.budget.find())
         for budget in budgets:
             budget["_id"] = str(budget["_id"])
-        return render_template('budgets.html', budgets=budgets)
+        return render_template('budget.html', budgets=budgets)
     elif request.method == "POST":
         data = request.get_json()
         result = mongo.db.budget.insert_one(data)
         return jsonify({"inserted_id": str(result.inserted_id)})
   
-@app.route('/budget')
-def budgets():
-    budgets = mongo.db.budget.find()
-    return render_template('budget.html', budget=budgets)
-
-
 if __name__ == "__main__":
     app.run(debug=True)
 
