@@ -9,25 +9,31 @@ const productCostError = document.getElementById("product-cost-error");
 const amount = document.getElementById("amount");
 const expenditureValue = document.getElementById("expenditure-value");
 const balanceValue = document.getElementById("balance-amount");
+const objectif = document.getElementById("objectif");
+const depenses = document.getElementById("depenses");
+const principal = document.getElementById("principal");
 const list = document.getElementById("list");
 let tempAmount = 0;
 
+
 // Set Budget Functions
 
-totalAmountButton.addEventListener("click", () => {
-    tempAmount = totalAmount.value;
-    // Bad input
-    if (tempAmount === "" || tempAmount < 0) {
-        errorMessage.classList.remove("hide");
-    } else {
-        errorMessage.classList.add("hide");
-        // Set bidget
-        amount.innerHTML = tempAmount;
-        balanceValue.innerText = tempAmount - expenditureValue.innerText;
-        // Clear input
-        totalAmount.value = "";
-    }
-});
+    totalAmountButton.addEventListener("click", () => {
+        tempAmount = totalAmount.value;
+        // Bad input
+        if (tempAmount === "" || tempAmount < 0) {
+            errorMessage.classList.remove("hide");
+        } else {
+            errorMessage.classList.add("hide");
+            // Set budget
+            principal.innerHTML = tempAmount;
+            amount.innerHTML = tempAmount;
+            balanceValue.innerText = tempAmount - expenditureValue.innerText;
+            // Clear input
+            totalAmount.value = "";
+        }
+    });
+
 
 // Disable edit and delete button function
 
@@ -42,8 +48,8 @@ const disableButtons = (bool) => {
 
 const modifyElement = (element, edit = false) => {
     let parentDiv = element.parentElement;
-    let currentBalance = balanceValue.innerText;
-    let currentExpense = expenditureValue.innerText;
+    let currentBalance = balanceValue.innerText = objectif.innerText ;
+    let currentExpense = expenditureValue.innerText = depenses.innerText;
     let parentAmount = parentDiv.querySelector(".amount").innerText;
     if (edit) {
         let parentText = parentDiv.querySelector(".product").innerText;
@@ -52,8 +58,8 @@ const modifyElement = (element, edit = false) => {
         disableButtons(true);
     }
 
-    balanceValue.innerText = parseInt(currentBalance) + parseInt(parentAmount);
-    expenditureValue.innerText = parseInt(currentExpense) - parseInt(parentAmount);
+    balanceValue.innerText = objectif.innerText = parseInt(currentBalance) + parseInt(parentAmount);
+    expenditureValue.innerText = depenses.innerText = parseInt(currentExpense) - parseInt(parentAmount);
     parentDiv.remove();
 };
 
@@ -94,11 +100,13 @@ checkAmountButton.addEventListener("click", () => {
     //Expense
     let expenditure = parseInt(userAmount.value);
     // Total expense (existing + new)
-    let sum = parseInt(expenditureValue.innerText) + expenditure;
+    let sum = parseInt(expenditureValue.innerText, depenses.innerText) + expenditure;
     expenditureValue.innerText = sum;
+    depenses.innerText = sum;
     // Total balance = budget - total expense
     const totalBalance = tempAmount - sum;
     balanceValue.innerText = totalBalance;
+    objectif.innerText = totalBalance;
     //Create list
     listCreator(productTitle.value, userAmount.value);
     //Clear inputs
