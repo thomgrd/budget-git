@@ -1,73 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Budget App</title>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Liens vers les fichiers CSS de Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Day #18 - Budget App | AsmrProg</title>
 </head>
+
 <body>
 
-<div class="container">
-    <h1 class="text-center mt-3 mb-3">Budget App</h1>
+    <div class="wrapper">
+        <div class="container">
+            <div class="sub-container">
+                <div class="total-amount-container">
+                    <h3>Budget</h3>
+                    <p class="hide error" id="budget-error">
+                        Value cannot be empty or negative
+                    </p>
+                    <input type="number" id="total-amount" placeholder="Enter Total Amount">
+                    <button class="submit" id="total-amount-button">
+                        Set Budget
+                    </button>
+                </div>
 
-    <!-- Formulaire d'ajout de budget -->
-    <form id="budget-form">
-        <div class="form-group">
-            <label for="budget-amount">Entrez votre budget :</label>
-            <div class="input-group">
-                <input type="number" class="form-control" id="budget-amount" required>
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter</button>
+                <div class="user-amount-container">
+                    <h3>Expenses</h3>
+                    <p class="hide error" id="product-title-error">
+                        Values cannot be empty
+                    </p>
+                    <input type="text" class="product-title" id="product-title" placeholder="Enter Title Of Product">
+                    <input type="number" id="user-amount" placeholder="Enter Cost Of Product">
+                    <button class="submit" id="check-amount">Check Amount</button>
+                </div>
+            </div>
+
+            <div class="output-container flex-space">
+                <div>
+                    <p>Total Budget</p>
+                    <span id="amount">
+                        0
+                    </span>
+                </div>
+                <div>
+                    <p>Expenses</p>
+                    <span id="expenditure-value">
+                        0
+                    </span>
+                </div>
+                <div>
+                    <p>Balance</p>
+                    <span id="balance-amount">
+                        0
+                    </span>
                 </div>
             </div>
         </div>
-    </form>
 
-    <!-- Liste des budgets -->
-    <div id="budget-list">
-        <h2 class="mt-5">Liste des budgets</h2>
-        <ul class="list-group">
-            {% for budget in budgets %}
-            <li class="list-group-item">{{ budget.amount }}</li>
-            {% endfor %}
-        </ul>
+        <div class="list">
+            <h3>Expenses List</h3>
+            <div class="list-container" id="list"></div>
+        </div>
+
     </div>
 
-</div>
 
-<!-- Liens vers les fichiers JavaScript de jQuery et Bootstrap -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-<!-- Script pour l'ajout de budget -->
-<script>
-    $(document).ready(function() {
-        $('#budget-form').submit(function(event) {
-            event.preventDefault(); // Empêcher la soumission normale du formulaire
-            var amount = $('#budget-amount').val(); // Récupérer le montant du budget entré par l'utilisateur
-            $.ajax({
-                url: '/budgets',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ amount: amount }),
-                success: function(response) {
-                    alert('Budget ajouté avec succès!'); // Afficher une notification de succès
-                    $('#budget-amount').val(''); // Vider le champ de saisie
-                    location.reload(); // Recharger la page pour afficher le nouveau budget ajouté
-                },
-                error: function(xhr, status, error) {
-                    console.log(xhr.responseText); // Afficher l'erreur dans la console
-                    alert('Une erreur est survenue lors de l\'ajout du budget.'); // Afficher une notification d'erreur
-                }
-            });
-        });
-    });
-</script>
-
+    <script src="index.js"></script>
 </body>
-</html>
 
+</html>
